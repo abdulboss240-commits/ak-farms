@@ -1,6 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import type {} from "@tanstack/react-start";
-import { goats } from "@/data/goats";
+import { createClient } from "@supabase/supabase-js";
 
 const BASE_URL = "";
 
@@ -8,6 +7,13 @@ export const Route = createFileRoute("/sitemap.xml")({
   server: {
     handlers: {
       GET: async () => {
+        const supabase = createClient(
+          process.env.SUPABASE_URL!,
+          process.env.SUPABASE_PUBLISHABLE_KEY!,
+          { auth: { persistSession: false, autoRefreshToken: false } },
+        );
+        const { data: goats } = await supabase.from("goats").select("id, updated_at");
+
         const staticEntries = [
           { path: "/", priority: "1.0", changefreq: "weekly" as const },
           { path: "/goats", priority: "0.9", changefreq: "daily" as const },
@@ -15,7 +21,7 @@ export const Route = createFileRoute("/sitemap.xml")({
           { path: "/testimonials", priority: "0.5", changefreq: "monthly" as const },
           { path: "/contact", priority: "0.6", changefreq: "monthly" as const },
         ];
-        const goatEntries = goats.map((g) => ({
+        const goatEntries = (goats ?? []).map((g) => ({
           path: `/goats/${g.id}`,
           priority: "0.8",
           changefreq: "weekly" as const,

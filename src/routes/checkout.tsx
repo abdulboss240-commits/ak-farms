@@ -3,6 +3,8 @@ import { useState } from "react";
 import { z } from "zod";
 import { useI18n } from "@/i18n/I18nProvider";
 import { useCart } from "@/lib/cart";
+import { useAuth } from "@/lib/auth";
+import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -34,14 +36,30 @@ const schema = z.object({
 function Checkout() {
   const { t } = useI18n();
   const navigate = useNavigate();
+  const { user, loading } = useAuth();
   const items = useCart((s) => s.items);
   const clear = useCart((s) => s.clear);
   const [city, setCity] = useState("Lahore");
   const [payment, setPayment] = useState<"online" | "cod">("cod");
+  const [submitting, setSubmitting] = useState(false);
 
   const subtotal = items.reduce((s, i) => s + i.qty * i.price, 0);
   const fee = deliveryFee(city, subtotal);
   const total = subtotal + fee;
+
+  if (loading) return null;
+
+  if (!user) {
+    return (
+      <div className="mx-auto max-w-xl px-4 py-32 text-center">
+        <h1 className="font-display text-3xl">Sign in to checkout</h1>
+        <p className="mt-3 text-muted-foreground">Create a free account or sign in to place your order securely.</p>
+        <Button asChild className="mt-6 rounded-full">
+          <Link to="/auth" search={{ next: "/checkout" }}>Sign in / Sign up</Link>
+        </Button>
+      </div>
+    );
+  }
 
   if (items.length === 0) {
     return (
@@ -52,8 +70,9 @@ function Checkout() {
     );
   }
 
-  function onSubmit(e: React.FormEvent<HTMLFormElement>) {
+  async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    if (!user) return;
     const fd = new FormData(e.currentTarget);
     const parsed = schema.safeParse({
       fullName: fd.get("fullName"),
@@ -68,15 +87,52 @@ function Checkout() {
       toast.error("Please check the form fields.");
       return;
     }
-    const id = `PG-${Date.now().toString(36).toUpperCase()}`;
-    if (typeof window !== "undefined") {
-      sessionStorage.setItem(`order.${id}`, JSON.stringify({
-        id, ...parsed.data, items, subtotal, fee, total, createdAt: Date.now(),
+
+    setSubmitting(true);
+    try {
+      const { data: order, error } = await supabase
+        .from("orders")
+        .insert({
+          user_id: user.id,
+          full_name: parsed.data.fullName,
+          email: parsed.data.email,
+          phone: parsed.data.phone,
+          street: parsed.data.street,
+          city: parsed.data.city,
+          delivery_date: parsed.data.date,
+          payment_method: parsed.data.payment,
+          subtotal,
+          delivery_fee: fee,
+          total,
+        })
+        .select()
+        .single();
+      if (error) throw error;
+
+      const itemsPayload = items.map((i) => ({
+        order_id: order.id,
+        goat_id: i.id,
+        name: i.name,
+        breed: i.breed,
+        image: i.image,
+        unit_price: i.price,
+        qty: i.qty,
       }));
+      const { error: itemsErr } = await supabase.from("order_items").insert(itemsPayload);
+      if (itemsErr) throw itemsErr;
+
+      // Mark goats as reserved
+      await supabase.from("goats").update({ status: "reserved" }).in("id", items.map((i) => i.id));
+
+      clear();
+      toast.success("Order placed!");
+      navigate({ to: "/order/$id", params: { id: order.id } });
+    } catch (err) {
+      console.error(err);
+      toast.error(err instanceof Error ? err.message : "Could not place order.");
+    } finally {
+      setSubmitting(false);
     }
-    clear();
-    toast.success("Order placed!");
-    navigate({ to: "/order/$id", params: { id } });
   }
 
   return (
@@ -88,7 +144,7 @@ function Checkout() {
           <Section title={t("checkout.contact")}>
             <Field name="fullName" label={t("checkout.fullName")} required />
             <div className="grid gap-4 sm:grid-cols-2">
-              <Field name="email" label={t("checkout.email")} type="email" required />
+              <Field name="email" label={t("checkout.email")} type="email" defaultValue={user.email ?? ""} required />
               <Field name="phone" label={t("checkout.phone")} type="tel" required />
             </div>
           </Section>
@@ -115,7 +171,7 @@ function Checkout() {
                 <RadioGroupItem value="online" />
                 <div>
                   <div className="font-medium">{t("checkout.online")}</div>
-                  <div className="text-xs text-muted-foreground">Stripe (coming soon)</div>
+                  <div className="text-xs text-muted-foreground">Card payment (coming soon)</div>
                 </div>
               </label>
               <label className={`flex cursor-pointer items-center gap-3 rounded-2xl border-2 p-4 transition-colors ${payment === "cod" ? "border-primary bg-primary/5" : "border-border"}`}>
@@ -150,7 +206,9 @@ function Checkout() {
               <dt>{t("cart.total")}</dt><dd className="font-display text-xl text-primary">{formatPKR(total)}</dd>
             </div>
           </dl>
-          <Button type="submit" size="lg" className="h-12 w-full rounded-full">{t("checkout.place")}</Button>
+          <Button type="submit" size="lg" disabled={submitting} className="h-12 w-full rounded-full">
+            {submitting ? "Placing…" : t("checkout.place")}
+          </Button>
         </aside>
       </form>
     </div>
@@ -166,11 +224,11 @@ function Section({ title, children }: { title: string; children: React.ReactNode
   );
 }
 
-function Field({ name, label, type = "text", required }: { name: string; label: string; type?: string; required?: boolean }) {
+function Field({ name, label, type = "text", required, defaultValue }: { name: string; label: string; type?: string; required?: boolean; defaultValue?: string }) {
   return (
     <div>
       <Label htmlFor={name} className="mb-1.5 block text-sm">{label}</Label>
-      <Input id={name} name={name} type={type} required={required} className="h-11" />
+      <Input id={name} name={name} type={type} required={required} defaultValue={defaultValue} className="h-11" />
     </div>
   );
 }
