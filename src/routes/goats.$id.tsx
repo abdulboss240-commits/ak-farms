@@ -64,7 +64,7 @@ function GoatDetail() {
           </div>
           {goat.images.length > 1 && (
             <div className="flex gap-3">
-              {goat.images.map((src, i) => (
+              {goat.images.map((src: string, i: number) => (
                 <button
                   key={i}
                   onClick={() => setActive(i)}

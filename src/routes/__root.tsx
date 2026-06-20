@@ -5,7 +5,7 @@ import "@fontsource/inter/700.css";
 import "@fontsource/fraunces/400.css";
 import "@fontsource/fraunces/500.css";
 import "@fontsource/fraunces/600.css";
-import "@fontsource-variable/noto-nastaliq-urdu";
+import "@fontsource-variable/noto-nastaliq-urdu/index.css";
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import {
