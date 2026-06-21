@@ -172,11 +172,4 @@
   .shadow-soft { box-shadow: var(--shadow-soft); }
   .shadow-warm { box-shadow: var(--shadow-warm); }
 }
-.lovable-badge, 
-iframe[src*="lovable"], 
-div[data-lovable-badge] {
-    display: none !important;
-    visibility: hidden !important;
-    opacity: 0 !important;
-    pointer-events: none !important;
-}
+
