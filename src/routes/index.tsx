@@ -16,7 +16,7 @@ export const Route = createFileRoute("/")({
       { name: "description", content: "Buy healthy, vet-certified farm-raised goats online. Beetal, Makhi Cheeni, Teddy, Kamori. Nationwide delivery across Pakistan." },
       { property: "og:title", content: "Premium Goats — Delivered To Your Doorstep" },
       { property: "og:description", content: "Healthy, vet-certified goats with nationwide delivery." },
-      { property: "og:image", content: heroImg },
+      { property: "og:image", content: bannerAsset.url },
     ],
   }),
   component: Home,
