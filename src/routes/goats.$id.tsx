@@ -7,7 +7,7 @@ import { fetchGoat, fetchGoats } from "@/lib/goats-api";
 import { useCart } from "@/lib/cart";
 import { Button } from "@/components/ui/button";
 import { formatPKR, whatsappLink } from "@/lib/format";
-import { goatImageUrl } from "@/lib/storage";
+import { GoatImage } from "@/components/GoatImage";
 import { GoatCard } from "@/components/GoatCard";
 import { toast } from "sonner";
 
@@ -57,8 +57,8 @@ function GoatDetail() {
       <div className="mt-6 grid gap-10 lg:grid-cols-2">
         <div className="space-y-4">
           <div className="overflow-hidden rounded-3xl border border-border/60 bg-muted shadow-soft">
-            <img
-              src={goatImageUrl(images[active])}
+            <GoatImage
+              path={images[active]}
               alt={goat.name}
               width={1024}
               height={1024}
@@ -73,7 +73,7 @@ function GoatDetail() {
                   onClick={() => setActive(i)}
                   className={`overflow-hidden rounded-2xl border-2 transition-colors ${i === active ? "border-primary" : "border-transparent hover:border-border"}`}
                 >
-                  <img src={goatImageUrl(src)} alt="" loading="lazy" className="h-20 w-20 object-cover" />
+                  <GoatImage path={src} alt="" loading="lazy" className="h-20 w-20 object-cover" />
                 </button>
               ))}
             </div>
@@ -115,7 +115,7 @@ function GoatDetail() {
               className="h-12 rounded-full px-7"
               disabled={!available}
               onClick={() => {
-                add({ id: goat.id, name: goat.name, breed: goat.breed, price, image: goatImageUrl(images[0]) });
+                add({ id: goat.id, name: goat.name, breed: goat.breed, price, image: images[0] ?? "" });
                 toast.success(`${goat.name} added to cart`);
               }}
             >
@@ -125,7 +125,7 @@ function GoatDetail() {
               <Link
                 to="/checkout"
                 onClick={() => {
-                  if (available) add({ id: goat.id, name: goat.name, breed: goat.breed, price, image: goatImageUrl(images[0]) });
+                  if (available) add({ id: goat.id, name: goat.name, breed: goat.breed, price, image: images[0] ?? "" });
                 }}
               >
                 {t("goat.buyNow")}

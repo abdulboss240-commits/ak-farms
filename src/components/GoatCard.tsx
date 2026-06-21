@@ -4,7 +4,7 @@ import { useI18n } from "@/i18n/I18nProvider";
 import { useCart } from "@/lib/cart";
 import { formatPKR } from "@/lib/format";
 import { Button } from "@/components/ui/button";
-import { goatImageUrl } from "@/lib/storage";
+import { GoatImage } from "@/components/GoatImage";
 import type { GoatRow } from "@/lib/goats-api";
 import { toast } from "sonner";
 
@@ -12,7 +12,7 @@ export function GoatCard({ goat, index = 0 }: { goat: GoatRow; index?: number })
   const { t } = useI18n();
   const add = useCart((s) => s.add);
   const available = goat.status === "available";
-  const image = goatImageUrl(goat.images?.[0]);
+  const imagePath = goat.images?.[0];
 
   return (
     <motion.article
@@ -23,8 +23,8 @@ export function GoatCard({ goat, index = 0 }: { goat: GoatRow; index?: number })
       className="group flex flex-col overflow-hidden rounded-3xl border border-border/60 bg-card shadow-soft transition-shadow hover:shadow-warm"
     >
       <Link to="/goats/$id" params={{ id: goat.id }} className="relative block overflow-hidden bg-muted">
-        <img
-          src={image}
+        <GoatImage
+          path={imagePath}
           alt={`${goat.name} — ${goat.breed}`}
           loading="lazy"
           width={1024}
@@ -62,7 +62,7 @@ export function GoatCard({ goat, index = 0 }: { goat: GoatRow; index?: number })
             size="sm"
             disabled={!available}
             onClick={() => {
-              add({ id: goat.id, name: goat.name, breed: goat.breed, price: Number(goat.price), image });
+              add({ id: goat.id, name: goat.name, breed: goat.breed, price: Number(goat.price), image: imagePath ?? "" });
               toast.success(`${goat.name} added to cart`);
             }}
           >
