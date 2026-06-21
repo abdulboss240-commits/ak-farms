@@ -172,7 +172,10 @@
   .shadow-soft { box-shadow: var(--shadow-soft); }
   .shadow-warm { box-shadow: var(--shadow-warm); }
 }
-[class*="lovable"], [id*="lovable"], .lovable-badge {
+/* Isse sirf actual watermark hide hoga, baki website kharab nahi hogi */
+.lovable-badge, 
+iframe[src*="lovable"], 
+div[data-lovable-badge] {
     display: none !important;
     visibility: hidden !important;
     opacity: 0 !important;
