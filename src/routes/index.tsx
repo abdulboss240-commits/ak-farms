@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { GoatCard } from "@/components/GoatCard";
 import { fetchGoats } from "@/lib/goats-api";
 import { testimonials } from "@/data/testimonials";
-import heroImg from "@/assets/hero-goat.jpg";
+import bannerAsset from "@/assets/banner.png.asset.json";
 
 export const Route = createFileRoute("/")({
   head: () => ({
