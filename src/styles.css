@@ -173,3 +173,14 @@
   .shadow-warm { box-shadow: var(--shadow-warm); }
 }
 
+/* Sirf Lovable ke specific badge aur elements ko hide karne ke liye */
+.lovable-badge,
+[class*="lovable-badge"],
+[id*="lovable-badge"],
+iframe[src*="lovable"],
+div[style*="z-index: 999999"] {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+}
