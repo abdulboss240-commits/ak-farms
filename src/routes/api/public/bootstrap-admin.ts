@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 
 // One-shot bootstrap to create the primary admin account. Idempotent.
 // This file is intended to be removed after first successful call.
-export const Route = createFileRoute("/api/public/_bootstrap-admin")({
+export const Route = createFileRoute("/api/public/bootstrap-admin")({
   server: {
     handlers: {
       GET: async () => {
