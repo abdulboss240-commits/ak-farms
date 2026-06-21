@@ -115,7 +115,7 @@ function GoatDetail() {
               className="h-12 rounded-full px-7"
               disabled={!available}
               onClick={() => {
-                add({ id: goat.id, name: goat.name, breed: goat.breed, price, image: goatImageUrl(images[0]) });
+                add({ id: goat.id, name: goat.name, breed: goat.breed, price, image: images[0] ?? "" });
                 toast.success(`${goat.name} added to cart`);
               }}
             >
@@ -125,7 +125,7 @@ function GoatDetail() {
               <Link
                 to="/checkout"
                 onClick={() => {
-                  if (available) add({ id: goat.id, name: goat.name, breed: goat.breed, price, image: goatImageUrl(images[0]) });
+                  if (available) add({ id: goat.id, name: goat.name, breed: goat.breed, price, image: images[0] ?? "" });
                 }}
               >
                 {t("goat.buyNow")}
