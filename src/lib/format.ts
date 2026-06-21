@@ -8,9 +8,9 @@ export function formatPKR(amount: number) {
 
 // WhatsApp + phone defaults — replace with real numbers via env later
 export const CONTACT = {
-  whatsapp: "+923001234567",
-  phone: "+92 300 1234567",
-  email: "hello@premiumgoats.pk",
+  whatsapp: "+923018752473",
+  phone: "+92 301 8752473",
+  email: "abdulboss240@gmail.com",
   address: "Sahiwal Valley Farm, Sahiwal, Punjab, Pakistan",
   mapEmbed:
     "https://www.google.com/maps?q=Sahiwal,Pakistan&output=embed",
