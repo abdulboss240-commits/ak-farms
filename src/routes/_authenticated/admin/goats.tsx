@@ -91,7 +91,7 @@ function AdminGoats() {
                 <tr key={g.id} className="border-t border-border/60">
                   <td className="px-4 py-3">
                     <div className="flex items-center gap-3">
-                      <img src={goatImageUrl(g.images[0])} alt="" className="h-10 w-10 rounded-lg object-cover" />
+                      <GoatImage path={g.images[0]} alt="" className="h-10 w-10 rounded-lg object-cover" />
                       <span className="font-medium">{g.name}</span>
                     </div>
                   </td>
@@ -258,7 +258,7 @@ function GoatFormDialog({
             <div className="grid grid-cols-3 gap-2 sm:grid-cols-4">
               {images.map((p) => (
                 <div key={p} className="group relative overflow-hidden rounded-lg border border-border bg-muted">
-                  <img src={goatImageUrl(p)} alt="" className="aspect-square w-full object-cover" />
+                  <GoatImage path={p} alt="" className="aspect-square w-full object-cover" />
                   <button
                     type="button"
                     onClick={() => removeImage(p)}
