@@ -26,7 +26,6 @@ import { Route as GoatsIdRouteImport } from './routes/goats.$id'
 import { Route as AuthenticatedAccountRouteImport } from './routes/_authenticated/account'
 import { Route as AuthenticatedAdminRouteRouteImport } from './routes/_authenticated/admin/route'
 import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin/index'
-import { Route as ApiPublicBootstrapAdminRouteImport } from './routes/api/public/bootstrap-admin'
 import { Route as AuthenticatedAdminOrdersRouteImport } from './routes/_authenticated/admin/orders'
 import { Route as AuthenticatedAdminGoatsRouteImport } from './routes/_authenticated/admin/goats'
 
@@ -114,11 +113,6 @@ const AuthenticatedAdminIndexRoute = AuthenticatedAdminIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AuthenticatedAdminRouteRoute,
 } as any)
-const ApiPublicBootstrapAdminRoute = ApiPublicBootstrapAdminRouteImport.update({
-  id: '/api/public/bootstrap-admin',
-  path: '/api/public/bootstrap-admin',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const AuthenticatedAdminOrdersRoute =
   AuthenticatedAdminOrdersRouteImport.update({
     id: '/orders',
@@ -149,7 +143,6 @@ export interface FileRoutesByFullPath {
   '/goats/': typeof GoatsIndexRoute
   '/admin/goats': typeof AuthenticatedAdminGoatsRoute
   '/admin/orders': typeof AuthenticatedAdminOrdersRoute
-  '/api/public/bootstrap-admin': typeof ApiPublicBootstrapAdminRoute
   '/admin/': typeof AuthenticatedAdminIndexRoute
 }
 export interface FileRoutesByTo {
@@ -168,7 +161,6 @@ export interface FileRoutesByTo {
   '/goats': typeof GoatsIndexRoute
   '/admin/goats': typeof AuthenticatedAdminGoatsRoute
   '/admin/orders': typeof AuthenticatedAdminOrdersRoute
-  '/api/public/bootstrap-admin': typeof ApiPublicBootstrapAdminRoute
   '/admin': typeof AuthenticatedAdminIndexRoute
 }
 export interface FileRoutesById {
@@ -191,7 +183,6 @@ export interface FileRoutesById {
   '/goats/': typeof GoatsIndexRoute
   '/_authenticated/admin/goats': typeof AuthenticatedAdminGoatsRoute
   '/_authenticated/admin/orders': typeof AuthenticatedAdminOrdersRoute
-  '/api/public/bootstrap-admin': typeof ApiPublicBootstrapAdminRoute
   '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
 }
 export interface FileRouteTypes {
@@ -214,7 +205,6 @@ export interface FileRouteTypes {
     | '/goats/'
     | '/admin/goats'
     | '/admin/orders'
-    | '/api/public/bootstrap-admin'
     | '/admin/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -233,7 +223,6 @@ export interface FileRouteTypes {
     | '/goats'
     | '/admin/goats'
     | '/admin/orders'
-    | '/api/public/bootstrap-admin'
     | '/admin'
   id:
     | '__root__'
@@ -255,7 +244,6 @@ export interface FileRouteTypes {
     | '/goats/'
     | '/_authenticated/admin/goats'
     | '/_authenticated/admin/orders'
-    | '/api/public/bootstrap-admin'
     | '/_authenticated/admin/'
   fileRoutesById: FileRoutesById
 }
@@ -272,7 +260,6 @@ export interface RootRouteChildren {
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   TestimonialsRoute: typeof TestimonialsRoute
   OrderIdRoute: typeof OrderIdRoute
-  ApiPublicBootstrapAdminRoute: typeof ApiPublicBootstrapAdminRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -396,13 +383,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminIndexRouteImport
       parentRoute: typeof AuthenticatedAdminRouteRoute
     }
-    '/api/public/bootstrap-admin': {
-      id: '/api/public/bootstrap-admin'
-      path: '/api/public/bootstrap-admin'
-      fullPath: '/api/public/bootstrap-admin'
-      preLoaderRoute: typeof ApiPublicBootstrapAdminRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/_authenticated/admin/orders': {
       id: '/_authenticated/admin/orders'
       path: '/orders'
@@ -476,7 +456,6 @@ const rootRouteChildren: RootRouteChildren = {
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   TestimonialsRoute: TestimonialsRoute,
   OrderIdRoute: OrderIdRoute,
-  ApiPublicBootstrapAdminRoute: ApiPublicBootstrapAdminRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
