@@ -156,13 +156,18 @@
 
   .bg-grain {
     background-image:
-      radial-gradient(oklch(0.55 0.16 38 / 0.06) 1px, transparent 1px);
-    background-size: 24px 24px;
+      radial-gradient(oklch(0.52 0.04 70 / 0.05) 1px, transparent 1px);
+    background-size: 22px 22px;
   }
 
   .gradient-warm {
-    background: linear-gradient(135deg, var(--clay) 0%, oklch(0.62 0.14 50) 100%);
+    background: linear-gradient(135deg, var(--olive) 0%, oklch(0.42 0.04 65) 100%);
   }
+
+  .gradient-sand {
+    background: linear-gradient(135deg, var(--sand) 0%, var(--clay) 100%);
+  }
+
 
   .shadow-soft { box-shadow: var(--shadow-soft); }
   .shadow-warm { box-shadow: var(--shadow-warm); }
