@@ -54,15 +54,16 @@
 }
 
 :root {
-  --radius: 0.875rem;
+  --radius: 1rem;
 
-  /* Brand palette */
-  --cream: oklch(0.975 0.015 80);        /* warm paper */
-  --clay: oklch(0.55 0.16 38);           /* deep terracotta */
-  --olive: oklch(0.42 0.07 130);         /* deep olive */
-  --ink: oklch(0.22 0.02 60);            /* warm charcoal */
+  /* Warm Sand palette */
+  --cream: oklch(0.985 0.008 80);        /* #faf8f5 paper */
+  --sand: oklch(0.945 0.015 80);         /* #f0ebe3 muted sand */
+  --clay: oklch(0.78 0.04 75);           /* #c9b99a warm taupe accent */
+  --olive: oklch(0.52 0.04 70);          /* #8b7355 deep taupe */
+  --ink: oklch(0.24 0.015 60);           /* warm charcoal */
 
-  --background: oklch(0.985 0.012 85);   /* near-cream page */
+  --background: var(--cream);
   --foreground: var(--ink);
 
   --card: oklch(1 0 0);
@@ -70,28 +71,29 @@
   --popover: oklch(1 0 0);
   --popover-foreground: var(--ink);
 
-  --primary: var(--clay);
-  --primary-foreground: oklch(0.985 0.012 85);
+  --primary: var(--olive);
+  --primary-foreground: var(--cream);
 
-  --secondary: var(--olive);
-  --secondary-foreground: oklch(0.985 0.012 85);
+  --secondary: var(--sand);
+  --secondary-foreground: var(--ink);
 
-  --muted: oklch(0.94 0.015 80);
-  --muted-foreground: oklch(0.45 0.02 60);
+  --muted: var(--sand);
+  --muted-foreground: oklch(0.48 0.02 65);
 
-  --accent: oklch(0.88 0.06 75);
+  --accent: var(--clay);
   --accent-foreground: var(--ink);
 
-  --destructive: oklch(0.55 0.22 27);
-  --destructive-foreground: oklch(0.985 0.012 85);
+  --destructive: oklch(0.5 0.18 27);
+  --destructive-foreground: var(--cream);
 
-  --success: oklch(0.55 0.13 145);
-  --success-foreground: oklch(0.985 0.012 85);
+  --success: oklch(0.5 0.1 145);
+  --success-foreground: var(--cream);
 
-  --border: oklch(0.9 0.015 75);
-  --input: oklch(0.92 0.015 75);
-  --ring: var(--clay);
+  --border: oklch(0.88 0.012 75);
+  --input: oklch(0.92 0.012 75);
+  --ring: var(--olive);
 }
+
 
 .dark {
   --background: oklch(0.18 0.015 60);
@@ -154,13 +156,18 @@
 
   .bg-grain {
     background-image:
-      radial-gradient(oklch(0.55 0.16 38 / 0.06) 1px, transparent 1px);
-    background-size: 24px 24px;
+      radial-gradient(oklch(0.52 0.04 70 / 0.05) 1px, transparent 1px);
+    background-size: 22px 22px;
   }
 
   .gradient-warm {
-    background: linear-gradient(135deg, var(--clay) 0%, oklch(0.62 0.14 50) 100%);
+    background: linear-gradient(135deg, var(--olive) 0%, oklch(0.42 0.04 65) 100%);
   }
+
+  .gradient-sand {
+    background: linear-gradient(135deg, var(--sand) 0%, var(--clay) 100%);
+  }
+
 
   .shadow-soft { box-shadow: var(--shadow-soft); }
   .shadow-warm { box-shadow: var(--shadow-warm); }
