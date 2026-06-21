@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { GoatCard } from "@/components/GoatCard";
 import { fetchGoats } from "@/lib/goats-api";
 import { testimonials } from "@/data/testimonials";
-import heroImg from "@/assets/hero-goat.jpg";
+import bannerAsset from "@/assets/banner.png.asset.json";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -16,7 +16,7 @@ export const Route = createFileRoute("/")({
       { name: "description", content: "Buy healthy, vet-certified farm-raised goats online. Beetal, Makhi Cheeni, Teddy, Kamori. Nationwide delivery across Pakistan." },
       { property: "og:title", content: "Premium Goats — Delivered To Your Doorstep" },
       { property: "og:description", content: "Healthy, vet-certified goats with nationwide delivery." },
-      { property: "og:image", content: heroImg },
+      { property: "og:image", content: bannerAsset.url },
     ],
   }),
   component: Home,
@@ -39,42 +39,23 @@ function Home() {
   return (
     <>
       <section className="relative overflow-hidden">
-        <div className="absolute inset-0 -z-10">
-          <img src={heroImg} alt="" width={1920} height={1280} className="h-full w-full object-cover" />
-          <div className="absolute inset-0 bg-gradient-to-b from-background/30 via-background/55 to-background" />
-          <div className="absolute inset-0 bg-gradient-to-r from-background/85 via-background/40 to-transparent" />
-        </div>
+        <img
+          src={bannerAsset.url}
+          alt="Premium Goats Banner"
+          width={1920}
+          height={800}
+          className="h-auto w-full"
+        />
+      </section>
 
-        <div className="mx-auto grid min-h-[88vh] max-w-7xl items-center px-4 py-20 sm:px-6 lg:px-8">
-          <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} className="max-w-2xl">
-            <span className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-card/80 px-4 py-1.5 text-xs font-medium uppercase tracking-widest text-primary backdrop-blur">
-              <span className="h-1.5 w-1.5 rounded-full bg-primary" />
-              {t("hero.eyebrow")}
-            </span>
-            <h1 className="mt-6 font-display text-5xl leading-[1.05] text-balance text-foreground sm:text-6xl lg:text-7xl">{t("hero.title")}</h1>
-            <p className="mt-6 max-w-xl text-lg text-foreground/75 text-pretty">{t("hero.subtitle")}</p>
-            <div className="mt-9 flex flex-wrap gap-3">
-              <Button asChild size="lg" className="h-12 rounded-full px-7 shadow-warm">
-                <Link to="/goats">{t("hero.cta.browse")} <ArrowRight className="ms-1 h-4 w-4 rtl:rotate-180" /></Link>
-              </Button>
-              <Button asChild size="lg" variant="outline" className="h-12 rounded-full border-foreground/20 bg-card/70 px-7 backdrop-blur">
-                <Link to="/checkout">{t("hero.cta.book")}</Link>
-              </Button>
-            </div>
-
-            <dl className="mt-12 flex flex-wrap gap-x-10 gap-y-4 text-sm">
-              {[
-                ["500+", locale === "ur" ? "خوش گاہک" : "Happy customers"],
-                ["12", locale === "ur" ? "شہر" : "Cities"],
-                ["100%", locale === "ur" ? "ویٹ معائنہ" : "Vet checked"],
-              ].map(([n, l]) => (
-                <div key={l}>
-                  <dt className="font-display text-3xl text-primary">{n}</dt>
-                  <dd className="text-muted-foreground">{l}</dd>
-                </div>
-              ))}
-            </dl>
-          </motion.div>
+      <section className="bg-grain border-b border-border/40 py-8">
+        <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-center gap-4 px-4 sm:px-6 lg:px-8">
+          <Button asChild size="lg" className="h-12 rounded-full px-7 shadow-warm">
+            <Link to="/goats">{t("hero.cta.browse")} <ArrowRight className="ms-1 h-4 w-4 rtl:rotate-180" /></Link>
+          </Button>
+          <Button asChild size="lg" variant="outline" className="h-12 rounded-full border-foreground/20 px-7">
+            <Link to="/checkout">{t("hero.cta.book")}</Link>
+          </Button>
         </div>
       </section>
 
