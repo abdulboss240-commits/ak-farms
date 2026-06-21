@@ -172,3 +172,14 @@
   .shadow-soft { box-shadow: var(--shadow-soft); }
   .shadow-warm { box-shadow: var(--shadow-warm); }
 }
+}
+
+/* Watermark removal without breaking layout */
+.lovable-badge,
+[class*="lovable-badge"],
+[id*="lovable-badge"] {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+}
