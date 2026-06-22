@@ -11,6 +11,7 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { formatPKR, deliveryFee, PAKISTAN_CITIES } from "@/lib/format";
+import { GoatImage } from "@/components/GoatImage";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/checkout")({
