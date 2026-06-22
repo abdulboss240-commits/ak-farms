@@ -48,74 +48,24 @@ function Home() {
 
   return (
     <>
-      {/* ============ HERO — BENTO ============ */}
-      <section className="bg-grain px-4 pb-16 pt-10 sm:px-6 lg:px-8 lg:pt-14">
+      {/* ============ HERO — BANNER ============ */}
+      <section className="bg-grain px-4 pb-14 pt-8 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-7xl">
-          <div className="grid auto-rows-[minmax(0,1fr)] gap-4 lg:grid-cols-12 lg:grid-rows-[auto_auto]">
-
-            {/* Headline tile */}
-            <motion.div
-              initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}
-              className="rounded-3xl border border-border bg-card p-8 shadow-soft sm:p-10 lg:col-span-7 lg:row-span-1"
-            >
-              <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-primary">
-                {t("hero.eyebrow") || "Farm-raised · Vet-certified"}
-              </p>
-              <h1 className="mt-4 font-display text-5xl leading-[1.02] tracking-tight text-balance sm:text-6xl lg:text-7xl">
-                {t("hero.title") || "Healthy goats, delivered to your doorstep."}
-              </h1>
-              <p className="mt-5 max-w-xl text-base text-muted-foreground sm:text-lg">
-                {t("hero.subtitle") || "Hand-picked Beetal, Makhi Cheeni, Teddy and Kamori from our Sahiwal valley farm. Nationwide delivery in 2–4 days."}
-              </p>
-              <div className="mt-7 flex flex-wrap gap-3">
-                <Button asChild size="lg" className="h-12 rounded-full px-7 shadow-warm">
-                  <Link to="/goats">{t("hero.cta.browse")} <ArrowRight className="ms-1 h-4 w-4 rtl:rotate-180" /></Link>
-                </Button>
-                <Button asChild size="lg" variant="outline" className="h-12 rounded-full border-foreground/15 px-7">
-                  <Link to="/checkout">{t("hero.cta.book")}</Link>
-                </Button>
-              </div>
-            </motion.div>
-
-            {/* Banner image tile */}
-            <motion.div
-              initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.05 }}
-              className="overflow-hidden rounded-3xl border border-border shadow-warm lg:col-span-5 lg:row-span-2"
-            >
-              <img
-                src={bannerAsset.url}
-                alt="Premium Goats"
-                className="h-full min-h-[280px] w-full object-cover lg:min-h-[520px]"
-              />
-            </motion.div>
-
-            {/* Stat tiles */}
-            <motion.div
-              initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.1 }}
-              className="rounded-3xl gradient-warm p-7 text-primary-foreground shadow-warm lg:col-span-3"
-            >
-              <p className="font-display text-5xl">500+</p>
-              <p className="mt-2 text-sm text-primary-foreground/80">Happy families across Pakistan</p>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.15 }}
-              className="rounded-3xl border border-border bg-accent/40 p-7 lg:col-span-2"
-            >
-              <Stethoscope className="h-6 w-6 text-primary" />
-              <p className="mt-3 font-display text-2xl leading-tight">Vet-certified health</p>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.2 }}
-              className="flex items-center gap-3 rounded-3xl border border-border bg-card p-7 lg:col-span-2"
-            >
-              <MapPin className="h-6 w-6 text-primary" />
-              <div>
-                <p className="text-xs uppercase tracking-wider text-muted-foreground">Farm</p>
-                <p className="font-display text-lg leading-tight">Sahiwal Valley</p>
-              </div>
-            </motion.div>
+          <h1 className="sr-only">Premium Goats — Healthy herds delivered with care</h1>
+          <div className="overflow-hidden rounded-3xl border border-border shadow-warm">
+            <img
+              src={bannerAsset.url}
+              alt="Premium Goats banner: healthy herds, happy you"
+              className="block h-auto w-full"
+            />
+          </div>
+          <div className="mt-6 flex flex-wrap justify-center gap-3">
+            <Button asChild size="lg" className="h-12 rounded-full px-7 shadow-warm">
+              <Link to="/goats">{t("hero.cta.browse")} <ArrowRight className="ms-1 h-4 w-4 rtl:rotate-180" /></Link>
+            </Button>
+            <Button asChild size="lg" variant="outline" className="h-12 rounded-full border-foreground/15 px-7">
+              <Link to="/checkout">{t("hero.cta.book")}</Link>
+            </Button>
           </div>
         </div>
       </section>
