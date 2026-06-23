@@ -3,6 +3,7 @@ import { Minus, Plus, Trash2, ShoppingBag } from "lucide-react";
 import { useI18n } from "@/i18n/I18nProvider";
 import { useCart } from "@/lib/cart";
 import { Button } from "@/components/ui/button";
+import { GoatImage } from "@/components/GoatImage";
 import { formatPKR, deliveryFee } from "@/lib/format";
 
 export const Route = createFileRoute("/cart")({
@@ -39,7 +40,7 @@ function Cart() {
           <ul className="space-y-4">
             {items.map((i) => (
               <li key={i.id} className="flex gap-4 rounded-2xl border border-border/60 bg-card p-4 shadow-soft">
-                <img src={i.image} alt={i.name} className="h-24 w-24 rounded-xl object-cover" />
+                <GoatImage path={i.image} alt={i.name} className="h-24 w-24 rounded-xl object-cover" />
                 <div className="flex flex-1 flex-col">
                   <div className="flex flex-wrap items-start justify-between gap-2">
                     <div>
