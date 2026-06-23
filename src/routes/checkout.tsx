@@ -171,9 +171,9 @@ function Checkout() {
               <label className={`relative flex cursor-pointer items-center gap-3 rounded-2xl border-2 p-4 transition-colors ${payment === "online" ? "border-primary bg-primary/5" : "border-border"}`}>
                 <RadioGroupItem value="online" />
                 <div>
-                  <div className="flex items-center gap-2 font-medium">
+                  <div className="flex flex-wrap items-center gap-2 font-medium">
                     {t("checkout.online")}
-                    <span className="inline-flex items-center rounded-md bg-red-600 px-2.5 py-0.5 text-xs font-bold text-white shadow-sm">
+                    <span className="inline-flex items-center rounded-md bg-destructive px-3 py-1 text-sm font-bold text-destructive-foreground shadow-sm">
                       COMING SOON
                     </span>
                   </div>
