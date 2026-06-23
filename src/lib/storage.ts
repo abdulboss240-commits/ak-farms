@@ -12,32 +12,66 @@ const PLACEHOLDER =
 const cache = new Map<string, { url: string; exp: number }>();
 const TTL_SECONDS = 60 * 60 * 24 * 7; // 7 days
 
-export async function getGoatImageUrl(path?: string | null): Promise<string> {
-  if (!path) return PLACEHOLDER;
-  if (path.startsWith("http://") || path.startsWith("https://") || path.startsWith("data:")) {
-    return path;
+type ResolvedImageRef =
+  | { kind: "direct"; value: string }
+  | { kind: "storage"; value: string };
+
+function resolveImageRef(path?: string | null): ResolvedImageRef | null {
+  const value = path?.trim();
+  if (!value) return null;
+  if (value.startsWith("data:")) return { kind: "direct", value };
+
+  const storageUrlMatch = value.match(
+    /\/storage\/v1\/object\/(?:sign|public|authenticated)\/goat-images\/([^?]+)/,
+  );
+  if (storageUrlMatch?.[1]) {
+    return { kind: "storage", value: decodeURIComponent(storageUrlMatch[1]) };
   }
+
+  if (value.startsWith(`${BUCKET}/`)) {
+    return { kind: "storage", value: value.slice(BUCKET.length + 1) };
+  }
+
+  if (value.startsWith("http://") || value.startsWith("https://") || value.startsWith("/")) {
+    return { kind: "direct", value };
+  }
+
+  return { kind: "storage", value };
+}
+
+export async function getGoatImageUrl(path?: string | null): Promise<string> {
+  const imageRef = resolveImageRef(path);
+  if (!imageRef) return PLACEHOLDER;
+  if (imageRef.kind === "direct") return imageRef.value;
+
+  const storagePath = imageRef.value;
   const now = Math.floor(Date.now() / 1000);
-  const cached = cache.get(path);
+  const cached = cache.get(storagePath);
   if (cached && cached.exp - 300 > now) return cached.url;
 
-  const { data, error } = await supabase.storage.from(BUCKET).createSignedUrl(path, TTL_SECONDS);
+  const { data, error } = await supabase.storage.from(BUCKET).createSignedUrl(storagePath, TTL_SECONDS);
   if (error || !data) return PLACEHOLDER;
-  cache.set(path, { url: data.signedUrl, exp: now + TTL_SECONDS });
+  cache.set(storagePath, { url: data.signedUrl, exp: now + TTL_SECONDS });
   return data.signedUrl;
 }
 
 /** Synchronous helper that returns cached URL or placeholder while loading. */
 export function getGoatImageUrlSync(path?: string | null): string {
-  if (!path) return PLACEHOLDER;
-  if (path.startsWith("http") || path.startsWith("data:")) return path;
-  return cache.get(path)?.url ?? PLACEHOLDER;
+  const imageRef = resolveImageRef(path);
+  if (!imageRef) return PLACEHOLDER;
+  if (imageRef.kind === "direct") return imageRef.value;
+  return cache.get(imageRef.value)?.url ?? PLACEHOLDER;
 }
 
 /** Resolve many image paths at once and prime the cache. */
 export async function primeGoatImageUrls(paths: (string | null | undefined)[]) {
   const toResolve = Array.from(
-    new Set(paths.filter((p): p is string => !!p && !p.startsWith("http") && !p.startsWith("data:") && !cache.has(p))),
+    new Set(
+      paths
+        .map(resolveImageRef)
+        .filter((ref): ref is { kind: "storage"; value: string } => ref?.kind === "storage" && !cache.has(ref.value))
+        .map((ref) => ref.value),
+    ),
   );
   if (!toResolve.length) return;
   const { data } = await supabase.storage.from(BUCKET).createSignedUrls(toResolve, TTL_SECONDS);
