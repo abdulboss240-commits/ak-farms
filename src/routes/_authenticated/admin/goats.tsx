@@ -12,6 +12,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { ResetSectionButton } from "@/components/ResetSectionButton";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
 import { toast } from "sonner";
@@ -65,7 +66,10 @@ function AdminGoats() {
           <h1 className="font-display text-4xl">Products</h1>
           <p className="mt-1 text-muted-foreground">Add, edit and manage your goat catalog.</p>
         </div>
-        <Button onClick={openCreate} className="rounded-full"><Plus className="me-1 h-4 w-4" /> Add goat</Button>
+        <div className="flex flex-wrap gap-2">
+          <ResetSectionButton section="goats" label="Products" invalidateKeys={[["goats"], ["admin-stats"]]} />
+          <Button onClick={openCreate} className="rounded-full"><Plus className="me-1 h-4 w-4" /> Add goat</Button>
+        </div>
       </div>
 
       <div className="mt-8 overflow-hidden rounded-2xl border border-border/60 bg-card shadow-soft">
