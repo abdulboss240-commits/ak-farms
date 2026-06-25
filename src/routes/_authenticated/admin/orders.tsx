@@ -6,6 +6,7 @@ import { supabase } from "@/integrations/supabase/client";
 import type { Database } from "@/integrations/supabase/types";
 import { formatPKR } from "@/lib/format";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { ResetSectionButton } from "@/components/ResetSectionButton";
 import { toast } from "sonner";
 
 type OrderStatus = Database["public"]["Enums"]["order_status"];
@@ -46,8 +47,13 @@ function AdminOrders() {
 
   return (
     <div>
-      <h1 className="font-display text-4xl">Orders</h1>
-      <p className="mt-1 text-muted-foreground">Review and update delivery status.</p>
+      <div className="flex flex-wrap items-end justify-between gap-4">
+        <div>
+          <h1 className="font-display text-4xl">Orders</h1>
+          <p className="mt-1 text-muted-foreground">Review and update delivery status.</p>
+        </div>
+        <ResetSectionButton section="orders" label="Orders" invalidateKeys={[["admin-orders"], ["admin-stats"]]} />
+      </div>
 
       <div className="mt-8 overflow-hidden rounded-2xl border border-border/60 bg-card shadow-soft">
         {isLoading ? (
