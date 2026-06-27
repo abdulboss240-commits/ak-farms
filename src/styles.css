@@ -172,3 +172,12 @@
   .shadow-warm { box-shadow: var(--shadow-warm); }
 }
 https://github.com/abdulboss240-commits/ak-farms.git
+/* Watermark hide karne ke liye */
+[href*="lovable.dev"], 
+div[class*="fixed"]:has(a[href*="lovable"]),
+.lovable-badge {
+  display: none !important;
+  pointer-events: none !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+}
